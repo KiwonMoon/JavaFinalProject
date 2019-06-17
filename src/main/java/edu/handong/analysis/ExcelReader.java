@@ -18,7 +18,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 public class ExcelReader {
 	
-	public ArrayList<String> getData(InputStream is, boolean removeHeader) {
+	public ArrayList<String> getData(InputStream is, boolean removeHeader, int fileNum) {
 		ArrayList<String> values = new ArrayList<String>();
 		//String line = "";
 		
@@ -37,13 +37,13 @@ public class ExcelReader {
 		        		Cell cell = row.getCell(cellIndex);
 		        		
 		        		try {
-		        			line = line + "\"" + cell.getStringCellValue() +  "\"";
+		        			line = line + "\"" + cell.getStringCellValue().replaceAll("\"", "") +  "\"";
 		        			
 		        		} catch(IllegalStateException e) {
 		        			line = line + "\"" + cell.getNumericCellValue() + "\"";
 		        		}
 		        		
-		        		if (cellIndex != row.getPhysicalNumberOfCells() -1) { //getLastCellNum()
+		        		if (cellIndex != row.getPhysicalNumberOfCells() -1) {
 		        			line = line + ",";
 		        			//line = "\"" + line + "," + "\"";
 		        		}

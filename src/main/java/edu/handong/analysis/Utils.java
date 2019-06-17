@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.csv.CSVParser;
+import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -25,20 +26,29 @@ public class Utils {
 		
 		
 		try {
-			File file = new File(targetFileName);
-			FileOutputStream fos = new FileOutputStream(file);
-			DataOutputStream dos = new DataOutputStream(fos);
 			
-			for(String line: lines) {
-				dos.write((line+"\n").getBytes());
-				//dos.write((line+"").getBytes());
+			for(int i = 1; i <= 2; i++) {
+				String name = targetFileName + i + ".csv";
 				
-				if(!file.exists()) {
-					file.getParentFile().mkdirs();
+
+				File file = new File(name);
+				FileOutputStream fos = new FileOutputStream(file);
+				DataOutputStream dos = new DataOutputStream(fos);
+				ArrayList<String> strArray = new ArrayList<>();
+				
+				//CustomizedGenerics<String> genericLine = myReader.getData(stream, true);
+				
+				for(String line: lines) {
+					dos.write((line+"\n").getBytes());
+					//dos.write((line+"").getBytes());
+					
+					if(!file.exists()) {
+						file.getParentFile().mkdirs();
+					}
 				}
+				dos.close();
+				fos.close();
 			}
-			dos.close();
-			fos.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -13,16 +13,20 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 
-public class JavaFinalProjectAnalyzer {
+public class JavaFinalProjectAnalyzer{
 	
 	String i, input = "";
-	String o, output = "";
+	String output1 = "";
+	String output2 = "";
 	boolean h, help;
 	
 	public void run(String[] args) throws IOException {
-		
+		int numThreads = 10;
 		Options options = new Options(); 
 		createOption(options);
+		
+		Thread[] theads = new Thread[numThreads];
+		
 		
 		try {
 			if(args.length<5)
@@ -43,8 +47,10 @@ public class JavaFinalProjectAnalyzer {
 			ZipReader zipReader = new ZipReader();
 			
 			//CustomizedGenerics<String> liness = zipReader.readFileInZip(input);
-			ArrayList<String> lines = zipReader.readFileInZip(input);
-			Utils.writeAFile(lines, output);
+			ArrayList<String> result1 = zipReader.readFileInZip(input);
+			ArrayList<String> result2 = zipReader.readFile2InZip(input);
+			Utils.writeAFile(result1, output1);
+			Utils.writeAFile(result2, output2);
 			
 		}
 		
@@ -57,7 +63,8 @@ public class JavaFinalProjectAnalyzer {
 			CommandLine cmd = parser.parse(options, args);
 			
 			input = cmd.getOptionValue("i");
-			output = cmd.getOptionValue("o");
+			output1 = cmd.getOptionValue("o");
+			output2 = cmd.getOptionValue("o");
 			help = cmd.hasOption("h");
 			
 		} catch(Exception e) {

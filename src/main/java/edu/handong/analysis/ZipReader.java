@@ -13,10 +13,10 @@ public class ZipReader {
 	public ArrayList<String> readFileInZip(String path) {
 		
 		ZipFile zipFile;
-		ArrayList<String> lines= new ArrayList<String>();
+		ArrayList<String> result1 = new ArrayList<String>();
 		
 		try {
-			lines.add("Student ID" + "," + "제목" + "," + "요약문 (300자 내외)" + "," + "\"핵심어 (keyword,쉽표로 구분)\"" + "," + "조회날짜" + "," + "실제자료조회 출처 (웹자료링크)" + "," + "원출처 (기관명 등)" + "," + "제작자 (Copyright 소유처)");
+			result1.add("Student ID" + "," + "제목" + "," + "요약문 (300자 내외)" + "," + "\"핵심어 (keyword,쉽표로 구분)\"" + "," + "조회날짜" + "," + "실제자료조회 출처 (웹자료링크)" + "," + "원출처 (기관명 등)" + "," + "제작자 (Copyright 소유처)");
 			
 			for(int i = 1; i <= 5; i++) {
 				String paths = path + "000" + i + ".zip";
@@ -30,22 +30,67 @@ public class ZipReader {
 					
 					ExcelReader myReader = new ExcelReader();
 					
-					for(String lineAndId: myReader.getData(stream, true)) {
+					//CustomizedGenerics<String> genericLine = myReader.getData(stream, true);
+					
+					for(String lineAndId: myReader.getData(stream, true, 1)) {
+						//String lineAndId = "";
 						lineAndId = "000" + i + "," + lineAndId;
 						
-						lines.add(lineAndId);
+						result1.add(lineAndId);
 						
 						System.out.println(lineAndId);
 					}
 					break;
 				}
+				zipFile.close();
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return result1;
+	}
+	
+public ArrayList<String> readFile2InZip(String path) {
+		
+		ZipFile zipFile;
+		ArrayList<String> result2 = new ArrayList<String>();
+		
+		try {
+			result2.add("Student ID" + "," + "제목(반드시 요약문 양식에 입력한 제목과 같아야 함.)" + "," + "표/그림 일련번호" + "," + "\"자료유형(표,그림,…)\"" + "," + "자료에 나온 표나 그림 설명(캡션)" + "," + "자료가 나온 쪽번호");
+			
+			for(int i = 1; i <= 5; i++) {
+				String paths = path + "000" + i + ".zip";
+				
+				zipFile = new ZipFile(paths);
+				Enumeration<? extends ZipArchiveEntry> entries = zipFile.getEntries();
+				
+				while(entries.hasMoreElements()) {
+					ZipArchiveEntry entry = entries.nextElement();
+					InputStream stream = zipFile.getInputStream(entry);
+					
+					ExcelReader myReader = new ExcelReader();
+					
+					//CustomizedGenerics<String> genericLine = myReader.getData(stream, true);
+					
+					for(String lineAndId: myReader.getData(stream, true, 2)) {
+						//String lineAndId = "";
+						lineAndId = "000" + i + "," + lineAndId;
+						
+						result2.add(lineAndId);
+						
+						System.out.println(lineAndId);
+					}
+					break;
+				}
+				zipFile.close();
 				
 			}
 			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return lines;
+		return result2;
 	}
 
 }
