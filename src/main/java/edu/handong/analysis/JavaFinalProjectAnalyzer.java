@@ -49,6 +49,7 @@ public class JavaFinalProjectAnalyzer{
 			//CustomizedGenerics<String> liness = zipReader.readFileInZip(input);
 			ArrayList<String> result1 = zipReader.readFileInZip(input);
 			ArrayList<String> result2 = zipReader.readFile2InZip(input);
+			
 			Utils.writeAFile(result1, output1);
 			Utils.writeAFile(result2, output2);
 			
