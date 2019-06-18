@@ -15,10 +15,10 @@ import org.apache.commons.cli.Options;
 
 public class JavaFinalProjectAnalyzer{
 	
-	String i, input = "";
+	String input = "";
 	String output1 = "";
 	String output2 = "";
-	boolean h, help;
+	boolean help;
 	
 	public void run(String[] args) throws IOException {
 		int numThreads = 10;
